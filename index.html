@@ -1,0 +1,853 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Production Sheet</title>
+<link id="f1" rel="preconnect" href="https://fonts.googleapis.com">
+<link id="f2" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@500&display=swap">
+<style id="st">
+/* Layout: one reading column; install first, then the approved lists (editable by the owner) */
+:root{
+  --bg:#f6f7f8; --surface:#ffffff; --fg:#1b2329; --muted:#5d6a73; --line:#dde2e6;
+  --accent:#1f6f8b; --accent-fg:#ffffff; --chip:#e6f0f4; --chip-fg:#134b5f; --warn:#a8561a; --danger:#c0392b;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#12171b; --surface:#1a2127; --fg:#e4e9ec; --muted:#9aa7b0; --line:#2c363e;
+  --accent:#6cb8d3; --accent-fg:#0d1a20; --chip:#1d3440; --chip-fg:#b9e1ef; --warn:#e3a06a; --danger:#ef7d70; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12171b; --surface:#1a2127; --fg:#e4e9ec; --muted:#9aa7b0; --line:#2c363e;
+  --accent:#6cb8d3; --accent-fg:#0d1a20; --chip:#1d3440; --chip-fg:#b9e1ef; --warn:#e3a06a; --danger:#ef7d70; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:15px/1.6 var(--body)}
+.wrap{max-width:860px;margin:0 auto;padding-inline:20px;padding-block:40px 96px;display:flex;flex-direction:column;gap:40px}
+header{display:flex;flex-direction:column;gap:10px}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:700}
+h1{font:800 34px/1.15 var(--body);margin:0;text-wrap:balance}
+h2{font:700 22px/1.25 var(--body);margin:0;text-wrap:balance}
+h3{font:700 15px/1.3 var(--body);margin:0}
+p{margin:0;max-width:66ch}
+.lede{color:var(--muted);font-size:16px}
+section{display:flex;flex-direction:column;gap:14px}
+.sechead{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;justify-content:space-between}
+ol.steps{margin:0;padding:0;list-style:none;counter-reset:s;display:flex;flex-direction:column;gap:14px}
+ol.steps>li{counter-increment:s;display:grid;grid-template-columns:32px 1fr;gap:12px;align-items:start}
+ol.steps>li::before{content:counter(s);width:28px;height:28px;border-radius:50%;background:var(--chip);color:var(--chip-fg);font-weight:700;display:grid;place-items:center;font-size:14px}
+ol.steps>li>div{min-width:0;display:flex;flex-direction:column;gap:8px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.btn{font:600 14px var(--body);border-radius:6px;padding:8px 14px;border:1px solid var(--accent);background:var(--accent);color:var(--accent-fg);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn.sm{padding:4px 10px;font-size:13px}
+.btn:disabled{opacity:.5;cursor:default}
+.btn:focus-visible,.ib:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.drag{cursor:grab;border-style:dashed}
+.hint{font-size:13px;color:var(--muted)}
+.ver{font-size:13px;color:var(--muted)}
+.ver b{color:var(--fg);font-variant-numeric:tabular-nums}
+code,.mono{font:500 13px/1.5 var(--mono);background:var(--chip);color:var(--chip-fg);padding:1px 5px;border-radius:4px}
+textarea{width:100%;box-sizing:border-box;font:500 12px/1.5 var(--mono);background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:10px;resize:vertical;min-height:80px}
+details.tog{display:flex;flex-direction:column;gap:14px}
+details.tog summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:10px}
+details.tog summary::-webkit-details-marker{display:none}
+details.tog summary::before{content:"\25B8";color:var(--accent);font-size:16px;transition:transform .15s}
+details.tog[open] summary::before{transform:rotate(90deg)}
+details.tog[open] summary{margin-bottom:14px}
+details.tog summary:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:4px}
+.uses{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.uses .card{gap:6px}
+.uses p{font-size:14px;color:var(--muted)}
+.alt{margin:0;padding-left:20px;font-size:14px;display:flex;flex-direction:column;gap:4px}
+.alt li::marker{color:var(--muted)}
+a{color:var(--accent)}
+.lists{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;align-items:start}
+.lists .card{gap:8px;padding:12px 14px}
+.lists ol{margin:0;padding-left:22px;font:500 13px/1.75 var(--mono)}
+.lists ol li::marker{color:var(--muted);font-size:11px}
+.ed{display:flex;flex-direction:column;gap:4px}
+.er{display:grid;grid-template-columns:1fr auto auto auto;gap:2px;align-items:center}
+.er input{min-width:0;font:500 13px var(--mono);padding:5px 7px;border:1px solid var(--line);border-radius:5px;background:var(--bg);color:var(--fg)}
+.ib{border:0;background:transparent;color:var(--muted);cursor:pointer;width:26px;height:26px;border-radius:5px;font-size:14px;line-height:1}
+.ib:hover{background:var(--chip);color:var(--chip-fg)}
+.ib.del:hover{color:var(--danger)}
+.ib:disabled{opacity:.25;cursor:default;background:transparent}
+.bar{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);padding:12px 20px calc(12px + env(safe-area-inset-bottom,0px));display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;box-shadow:0 -6px 20px rgba(0,0,0,.08)}
+.bar .msg{font-size:13px;color:var(--muted)}
+.bar .msg.bad{color:var(--danger);font-weight:600}
+.rtable{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:8px}
+.rtable table{border-collapse:collapse;width:100%;font-size:13px}
+.rtable th,.rtable td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--line)}
+.rtable tr:last-child td{border-bottom:0}
+.rtable th{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:700;background:var(--bg);white-space:nowrap}
+.rtable td.when{font-weight:600;white-space:nowrap}
+.rtable td.when small{display:block;font-weight:400;color:var(--muted)}
+.rv{display:flex;flex-direction:column;gap:2px;font:500 12.5px/1.5 var(--mono);white-space:nowrap}
+.rv .tok{color:var(--accent)}
+.rv .orph{color:var(--warn)}
+.rv .none{color:var(--muted)}
+.rtable select,.rtable input{font:500 12.5px var(--body);padding:4px 6px;border:1px solid var(--line);border-radius:5px;background:var(--bg);color:var(--fg);max-width:170px}
+.rtable .vr{display:flex;align-items:center;gap:2px;margin-bottom:3px}
+.rtable .wh{display:flex;flex-direction:column;gap:4px;min-width:170px}
+.rtable .wh .row{gap:2px}
+.lnk{border:0;background:none;color:var(--accent);font:600 12px var(--body);cursor:pointer;padding:2px 0}
+.warn{color:var(--warn);font-weight:600}
+footer{font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:16px}
+@media (max-width:560px){h1{font-size:27px}.wrap{padding-block:24px 110px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<style>body{margin:0}[hidden]{display:none!important}</style>
+</head>
+<body>
+<template id="tpl">
+<div class="wrap">
+<header>
+  <div class="eyebrow">Bentonville Worship Gatherings · Planning Center Services</div>
+  <h1>Production Sheet</h1>
+  <p class="lede">A bookmark that opens a dropdown grid on top of any plan in Planning Center. Pick an entry for Leader AM/PM, Audio, Lights, the three ProPresenter columns or Livestream, and it saves to the plan right away under your own login.</p>
+  <p class="ver" data-ver></p>
+</header>
+
+<section id="install">
+  <h2>Install (about a minute)</h2>
+  <p class="hint">Works in Chrome, Safari, Firefox and Edge on a computer.</p>
+  <ol class="steps">
+    <li><div><h3>Show your bookmarks bar</h3><p>Press <code>Cmd+Shift+B</code> on a Mac or <code>Ctrl+Shift+B</code> on Windows. In Safari this is called the Favorites bar.</p></div></li>
+    <li><div>
+      <h3>Drag this button onto the bar</h3>
+      <div class="card">
+        <div class="row"><a class="btn drag" data-drag href="#">Production Sheet</a><span class="hint" data-draghint aria-live="polite">Click and hold the button, drag it up to your bookmarks bar, and let go.</span></div>
+        <p class="hint">If the button won't drag into your bar, use one of the <a href="#other">other ways to add it</a> at the bottom of this page.</p>
+      </div>
+    </div></li>
+    <li><div><h3>Open a plan and click it</h3><p>Go to any plan in Planning Center Services, then click <b>Production Sheet</b> in your bookmarks bar. You need to be signed in to Planning Center.</p></div></li>
+  </ol>
+  <p class="hint"><span class="warn">When the lists change:</span> the panel shows its list version in the top corner. If yours is lower than the version at the top of this page, delete your old bookmark and add it again from here.</p>
+</section>
+
+<details id="use" class="tog">
+  <summary><h2>How To Use It</h2></summary>
+  <div class="uses">
+    <div class="card"><h3>Pick from the list</h3><p>Every cell is a dropdown. Choosing an entry saves it to Planning Center immediately. There's no Save button.</p></div>
+    <div class="card"><h3>Hover to focus</h3><p>Point at any cell and its row and column stay bright while the rest of the grid fades back.</p></div>
+    <div class="card"><h3>Custom entry</h3><p>Choose <b>Custom…</b> at the bottom of a dropdown, type the entry and press Enter. It saves to this plan only and doesn't change the approved list.</p></div>
+    <div class="card"><h3>Leader names</h3><p>The Leader dropdowns list people scheduled on that plan under BAND &gt; Vocals or on the LEADER team, followed by the Leader entries below. People who declined are left out.</p></div>
+    <div class="card"><h3>Suggestions</h3><p>Suggestions are on when the sheet opens. Click <b>Suggestions</b> to hide or show them. A <span style="color:#1d5aa6;font-weight:600">blue</span> tag offers an entry for an empty cell. An <span style="color:#94560a;font-weight:600">orange</span> tag means what's there differs from the suggestion, like a typo, a duplicate or something left from an old template. Click a tag to use it. Nothing changes until you click.</p></div>
+    <div class="card"><h3>Dashes</h3><p>A dash means "no change from the item above." Suggestions follow this, so the first song gets "Band" and the song after it gets "-".</p></div>
+    <div class="card"><h3>Pre-fill</h3><p>Click <b>Pre-fill</b> to fill empty cells with their suggestion, or "-" if there isn't one. Cells that already have text are never changed. Cells with more than one suggestion stay empty for you to pick.</p></div>
+    <div class="card"><h3>Hide headers</h3><p>Tick <b>Hide headers</b> at the top to hide the section header rows and see only the items.</p></div>
+    <div class="card"><h3>Done</h3><p>Click <b>Done</b> or press Esc to close. The plan page reloads so it shows your changes.</p></div>
+    <div class="card"><h3>Permissions</h3><p>The panel can only change what your Planning Center account can edit. If a cell turns red, hover over it to see why.</p></div>
+  </div>
+</details>
+
+<details id="lists" class="tog">
+  <summary><h2>Approved lists</h2></summary>
+  <div class="sechead"><span></span><button class="btn ghost" type="button" data-edit hidden>Edit lists</button></div>
+  <p class="hint" data-listhint>These are the entries in each dropdown, in the order they appear.</p>
+  <div class="lists" data-lists></div>
+</details>
+
+<details id="suggestions" class="tog">
+  <summary><h2>Suggestions</h2></summary>
+  <div class="sechead"><span></span><button class="btn ghost" type="button" data-edit2 hidden>Edit suggestions</button></div>
+  <p class="hint" data-sughint>What the Suggestions and Pre-fill buttons offer for each kind of item. For each column, the first matching rule with a value is used. A blank cell means no suggestion, so Pre-fill puts "-" there. If a suggestion is the same as the entry above it, the tool suggests "-" instead.</p>
+  <div class="rtable" data-rules></div>
+</details>
+
+<section id="other">
+  <h2>Other ways to add the bookmark</h2>
+  <p>Use these if dragging the button doesn't work. Each one starts by copying the bookmark code.</p>
+  <div class="card">
+    <div class="row"><button class="btn" data-copy type="button">Copy bookmark code</button><span class="hint" data-copied aria-live="polite"></span></div>
+    <textarea data-code readonly aria-label="Bookmark code"></textarea>
+  </div>
+  <div class="uses">
+    <div class="card"><h3>Chrome</h3><ol class="alt">
+      <li>Click <b>Bookmarks</b>, then <b>Bookmark Manager</b>.</li>
+      <li>Click the three vertical dots in the upper right corner.</li>
+      <li>Click <b>Add new bookmark</b>.</li>
+      <li>Name it <b>Production Sheet</b> and paste the code into the URL field.</li>
+      <li>Click <b>Save</b>.</li>
+    </ol></div>
+    <div class="card"><h3>Safari</h3><ol class="alt">
+      <li>Open any page and press <code>Cmd+D</code>. Choose <b>Favorites</b> and click <b>Add</b>.</li>
+      <li>Click <b>Bookmarks</b>, then <b>Edit Bookmarks</b>.</li>
+      <li>Right-click the new bookmark, choose <b>Edit Address</b> and paste the code.</li>
+      <li>Right-click it again, choose <b>Rename</b> and name it <b>Production Sheet</b>.</li>
+    </ol></div>
+    <div class="card"><h3>Firefox</h3><ol class="alt">
+      <li>Right-click the bookmarks toolbar and choose <b>Add Bookmark…</b></li>
+      <li>Name it <b>Production Sheet</b>.</li>
+      <li>Paste the code into the URL field.</li>
+      <li>Click <b>Save</b>.</li>
+    </ol></div>
+  </div>
+</section>
+
+<footer>The panel uses the same connection the Planning Center website uses. If Planning Center changes that, the panel may stop loading until it's updated.</footer>
+</div>
+<div class="bar" data-bar hidden>
+  <span class="msg" data-barmsg>Saving publishes a new version. Everyone will need to add the bookmark again to get it.</span>
+  <button class="btn ghost" type="button" data-cancel>Cancel</button>
+  <button class="btn" type="button" data-save>Save and publish</button>
+</div>
+</template>
+<div id="app"></div>
+<script type="application/json" id="state">{"version":12,"updated":"2026-10-14","lists":{"Leader AM":["-","TECH","TBD"],"Leader PM":["-","TECH","TBD"],"Audio":["-","Spotify","Band","Band (Instrumental)","Teach","Teach + Video","Video","1 HH","2 HHs","1 HH + 1 BP","1 HH + 2 BP","1 BP","2 BPs"],"Lights":["-","Walk-In","Song Bright","Song Dim","Host","Generosity","Teach","Baptism","Video"],"PP: Audience":["-","Loops","Countdown","Loops + Countdown","Lyrics","Announcements","Teach","Generosity","Benediction","Video","Name Title Slide","Camera Feed"],"PP: Stage Layout":["-","Pre-Service","Worship","Host","Teach","Teach (No Timer)","Graphics","Video","Post-Service"],"PP: Timers":["Countdown","Service Start","Host","Teach","-"],"Livestream":["-","Loops","Loops + Countdown","Cam Only","Cam + Pro7 DSK","Cam + GFX DSK / PiP","Cam / Slides","Cam / Slides or PiP","Slide Only","Video Only","DDR After Band Stops"]},"rules":[{"kind":"first","text":"","pos":"any","v":{"PP: Timers":["Service Start"]}},{"kind":"song","text":"","pos":"any","v":{"Leader AM":["@song_leader"],"Leader PM":["@vocals_pm"],"Audio":["Band"],"Lights":["Song Bright","Song Dim"],"PP: Audience":["Lyrics"],"PP: Stage Layout":["Worship"],"Livestream":["Cam + Pro7 DSK"]}},{"kind":"title","text":"TEACHING","pos":"any","v":{"Leader AM":["@teacher_am"],"Leader PM":["@teacher_pm"],"Audio":["Teach"],"Lights":["Teach"],"PP: Audience":["Teach"],"PP: Stage Layout":["Teach"],"PP: Timers":["Teach"],"Livestream":["Cam / Slides or PiP"]}},{"kind":"title","text":"Ministry Highlight","pos":"any","v":{"Leader AM":["@host_am"],"Leader PM":["@host_pm"],"Audio":["1 HH"],"Lights":["Host"],"PP: Audience":["Announcements"],"PP: Stage Layout":["Host"],"PP: Timers":["Host"],"Livestream":["Cam + GFX DSK / PiP"]}},{"kind":"title","text":"Baptism","pos":"any","v":{"Leader AM":["-"],"Leader PM":["-"],"Audio":["1 HH + 1 BP"],"Lights":["Baptism"],"PP: Audience":["Camera Feed"],"PP: Stage Layout":["Video"],"Livestream":["Cam + Pro7 DSK"]}},{"kind":"title","text":"Video","pos":"any","v":{"Leader AM":["TECH"],"Leader PM":["TECH"],"Audio":["Video"],"Lights":["Video"],"PP: Audience":["Video"],"PP: Stage Layout":["Video"],"Livestream":["Video Only"]}},{"kind":"title","text":"Announcement Loop","pos":"top","v":{"Leader AM":["TECH"],"Leader PM":["TECH"],"Audio":["Spotify"],"Lights":["Walk-In"],"PP: Audience":["Loops"],"PP: Stage Layout":["Pre-Service"],"Livestream":["Loops + Countdown"]}},{"kind":"title","text":"Announcement Loop","pos":"bottom","v":{"Leader AM":["TECH"],"Leader PM":["TECH"],"Audio":["Spotify"],"Lights":["Walk-In"],"PP: Audience":["Loops"],"PP: Stage Layout":["Post-Service"],"Livestream":["DDR After Band Stops"]}},{"kind":"title","text":"Benediction","pos":"any","v":{"Leader AM":["-"],"Leader PM":["-"],"Audio":["-"],"Lights":["-"],"PP: Audience":["Benediction"],"PP: Stage Layout":["Graphics"],"Livestream":["Slide Only"]}},{"kind":"title","text":"Generosity","pos":"any","v":{"Lights":["Generosity"],"PP: Audience":["Generosity"],"PP: Stage Layout":["Graphics"],"Livestream":["Slide Only"]}}]}</script>
+<script type="text/plain" id="panel-src">(async function () {
+  /* Production Sheet for Planning Center Services. Lists are filled in by the install page. */
+  var VERSION = '1.8';
+  var LIST_VERSION = __LISTVER__;
+  var COLUMNS = ['Leader AM', 'Leader PM', 'Audio', 'Lights', 'PP: Audience', 'PP: Stage Layout', 'PP: Timers', 'Livestream'];
+  var BUILT_IN = __LISTS__;
+  var CUSTOM = '__custom__', NONE = '__none__', CLEAR = '__clear__';
+
+  var m = location.pathname.match(/\/plans\/(\d+)/);
+  if (location.hostname !== 'services.planningcenteronline.com' || !m) {
+    alert('Open a plan in Planning Center Services first, then click the Production Sheet bookmark again.');
+    return;
+  }
+  var planId = m[1];
+  var old = document.getElementById('pnp-host'); if (old) old.remove();
+
+  var csrf = (document.querySelector('meta[name="csrf-token"]') || {}).content || '';
+  function api(path, opts) {
+    opts = opts || {};
+    var h = { 'Accept': 'application/json' };
+    if (opts.method && opts.method !== 'GET') { h['Content-Type'] = 'application/json'; h['X-CSRF-Token'] = csrf; h['X-Requested-With'] = 'XMLHttpRequest'; }
+    return fetch('/~api/services/v2' + path, { method: opts.method || 'GET', headers: h, body: opts.body ? JSON.stringify(opts.body) : undefined, credentials: 'same-origin', cache: 'no-store' })
+      .then(function (r) {
+        if (!r.ok) return r.text().then(function (t) { var e = new Error('HTTP ' + r.status); e.status = r.status; e.detail = t.slice(0, 300); throw e; });
+        return r.status === 204 ? {} : r.json();
+      });
+  }
+  async function findServiceType() {
+    var re = new RegExp('service_types/(\\d+)/plans/' + planId);
+    var ents = performance.getEntriesByType('resource');
+    for (var i = 0; i < ents.length; i++) { var x = ents[i].name.match(re); if (x) return x[1]; }
+    var x2 = document.documentElement.innerHTML.match(re); if (x2) return x2[1];
+    var sts = await api('/service_types?per_page=100');
+    for (var j = 0; j < sts.data.length; j++) {
+      try { await api('/service_types/' + sts.data[j].id + '/plans/' + planId); return sts.data[j].id; } catch (e) { }
+    }
+    throw new Error('Could not find this plan’s service type.');
+  }
+  function itemsWithNotes(json) {
+    var notes = {}, asg = {}; (json.included || []).forEach(function (n) { if (n.type === 'ItemNote') notes[n.id] = n; if (n.type === 'ItemAssignment') asg[n.id] = n; });
+    return json.data.slice().sort(function (a, b) { return a.attributes.sequence - b.attributes.sequence; }).map(function (it) {
+      var byCat = {};
+      ((it.relationships.item_notes || {}).data || []).forEach(function (ref) {
+        var n = notes[ref.id]; if (!n) return;
+        byCat[n.attributes.category_name] = { id: n.id, content: (n.attributes.content || '').trim() };
+      });
+      var who = (((it.relationships.item_assignments || {}).data) || []).map(function (ref) { var a = asg[ref.id]; return a && a.relationships.assignable && a.relationships.assignable.data && a.relationships.assignable.data.id; }).filter(Boolean);
+      return { id: it.id, title: (it.attributes.title || '').trim(), type: it.attributes.item_type, key: it.attributes.key_name, len: it.attributes.length, pos: it.attributes.service_position, leaders: who, notes: byCat };
+    });
+  }
+
+  /* ---------- UI shell (shadow DOM keeps Planning Center's styles out) ---------- */
+  var host = document.createElement('div'); host.id = 'pnp-host';
+  host.style.cssText = 'position:fixed;inset:0;z-index:2147483000';
+  document.body.appendChild(host);
+  var root = host.attachShadow({ mode: 'open' });
+  root.innerHTML = '<style>' +
+    ':host{all:initial}' +
+    '.bd{position:fixed;inset:0;background:rgba(15,22,28,.45)}' +
+    '.pn{position:fixed;inset:16px;background:#fff;color:#1b2329;border-radius:10px;box-shadow:0 20px 60px rgba(0,0,0,.35);display:flex;flex-direction:column;font:13px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif;overflow:hidden}' +
+    '.hd{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid #e3e7ea}' +
+    '.tt{font-weight:700;font-size:15px;margin-right:auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}' +
+    '.tt small{font-weight:400;color:#6b7780;font-size:13px;margin-left:8px}' +
+    'button{font:600 13px system-ui,sans-serif;border-radius:6px;padding:7px 14px;border:1px solid #1f6f8b;background:#1f6f8b;color:#fff;cursor:pointer}' +
+    '.stat{font-size:12px;color:#6b7780;white-space:nowrap}' +
+    '.ver{font-size:11px;color:#a3adb4;white-space:nowrap}' +
+    '.stat.bad{color:#c0392b;font-weight:600}' +
+    '.bdy{flex:1;overflow:auto}' +
+    'table{border-collapse:separate;border-spacing:0;min-width:100%}' +
+    'th{position:sticky;top:0;background:#fff;z-index:2;text-align:left;font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:#6b7780;font-weight:600;padding:10px 8px;border-bottom:1px solid #e3e7ea;white-space:nowrap}' +
+    'th:first-child,td:first-child{position:sticky;left:0;background:#fff;z-index:1;min-width:190px;max-width:240px}' +
+    'th:first-child{z-index:3}' +
+    'td{padding:5px 6px;border-bottom:1px solid #f0f2f4;vertical-align:middle}' +
+    'td,th{transition:opacity .12s}' +
+    'td.it{padding-left:16px}' +
+    'td.it b{display:block;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}' +
+    'td.it span{color:#8a959c;font-size:11.5px}' +
+    'tr.hdr td{font-weight:700;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:#1b2329;padding:9px 8px 9px 16px}' +
+    'tbody td{border-bottom:1px solid rgba(0,0,0,.06)}' +
+    'tr.pp td.it b{font-style:italic;font-weight:400}' +
+    'tr.song td.it b{font-weight:700}' +
+    'button.gh{background:#fff;color:#1f6f8b}' +
+    'button.gh.on{background:#1f6f8b;color:#fff}' +
+    '.chips{display:flex;flex-wrap:wrap;gap:3px;margin-top:3px;max-width:160px}' +
+    '.chips:empty{display:none}' +
+    '.chip{font:600 11.5px system-ui,sans-serif;border-radius:4px;padding:2px 6px;cursor:pointer;border:1px solid;white-space:nowrap;max-width:156px;overflow:hidden;text-overflow:ellipsis}' +
+    '.chip.add{background:#e3eefb;color:#1d5aa6;border-color:#9cbfe8}' +
+    '.chip.fix{background:#fdecd2;color:#94560a;border-color:#f0c27e}' +
+    'td.cf select{border-color:#e0a24a;box-shadow:inset 3px 0 0 #e0a24a}' +
+    'label.tg{display:flex;align-items:center;gap:6px;font-size:12px;color:#6b7780;white-space:nowrap;cursor:pointer}' +
+    'label.tg input{width:auto;margin:0}' +
+    'table.hov td,table.hov th{opacity:.6}' +
+    'table.hov .r,table.hov .c{opacity:1}' +
+    'table.hov td.r.c select{border-color:#1f6f8b;box-shadow:0 0 0 2px rgba(31,111,139,.18)}' +
+    'select,input{font:13px system-ui,sans-serif;border:1px solid #d5dbe0;border-radius:5px;padding:5px 6px;background:#fff;color:#1b2329;width:160px;box-sizing:border-box;transition:background-color .6s}' +
+    '.cell{display:flex;gap:4px;align-items:center}' +
+    'td{vertical-align:top}' +
+    '.empty select{color:#a3adb4}' +
+    '.ns select{color:#a8561a}' +
+    '.sv select,.sv input{background:#fff6d9}' +
+    '.ok select,.ok input{background:#e5f4ea}' +
+    '.er select,.er input{background:#fde8e6;border-color:#c0392b}' +
+    '.x{border:0;background:none;padding:2px 4px;color:#6b7780;font-size:14px}' +
+    '.msg{padding:40px;text-align:center;color:#6b7780;font-size:14px}' +
+    '</style>' +
+    '<div class="bd"></div><div class="pn">' +
+    '<div class="hd"><div class="tt">Production Sheet<small id="sub">Loading…</small></div>' +
+    '<span class="stat" id="stat"></span><span class="ver" id="ver"></span>' +
+    '<label class="tg"><input type="checkbox" id="hh"> Hide headers</label><button id="pf" class="gh" title="Fill empty cells only, with their suggestion or a dash. Cells with text are never changed.">Pre-fill</button><button id="sgb" class="gh on" title="Show suggestions to review: blue fills an empty cell, orange differs from what\u2019s there">Suggestions</button><button id="cl">Done</button></div>' +
+    '<div class="bdy" id="bdy"><div class="msg">Loading plan…</div></div>' +
+    '</div>';
+  var $ = function (s) { return root.querySelector(s); };
+
+  var ST, cats = {}, items = [], plan = null, LISTS = {}, saves = 0, pending = 0, failed = 0;
+
+  function close() {
+    if (pending && !confirm('Some notes are still saving. Close anyway?')) return;
+    host.remove(); document.removeEventListener('keydown', onKey, true);
+    if (saves) location.reload();
+  }
+  function onKey(e) { if (e.key === 'Escape') close(); }
+  document.addEventListener('keydown', onKey, true);
+  $('#cl').onclick = close;
+  $('.bd').onclick = close;
+
+  function setStat() {
+    var s = $('#stat');
+    if (pending) { s.className = 'stat'; s.textContent = 'Saving…'; }
+    else if (failed) { s.className = 'stat bad'; s.textContent = failed + ' didn’t save'; }
+    else if (saves) { s.className = 'stat'; s.textContent = 'All changes saved'; }
+    else s.textContent = '';
+  }
+
+  /* Item Row Colors from the service type's settings, shown the way the plan page shows them */
+  var PALETTE = { 0: '#d9efcb', 1: '#d6e8f7', 2: '#e6e0f8', 3: '#f5ddec', 4: '#fbdcc9', 5: '#ffffff', 6: '#fdf1c4', 7: '#e4e4e4' };
+  var ROWC = { std: {}, custom: [] };
+  function swatch(t) { return PALETTE[t.index] || t.color || ''; }
+  function setRowColors(a) {
+    (a.standard_item_types || []).forEach(function (t) { ROWC.std[(t.name || '').toLowerCase()] = swatch(t); });
+    ROWC.custom = (a.custom_item_types || []).map(function (t) { return { name: (t.name || '').toLowerCase(), color: swatch(t) }; })
+      .sort(function (x, y) { return y.name.length - x.name.length; });
+  }
+  function rowColor(it) {
+    if (it.type === 'header') return ROWC.std.header || '';
+    var t = it.title.toLowerCase();
+    for (var i = 0; i < ROWC.custom.length; i++) { var n = ROWC.custom[i].name; if (n && (t === n || t.indexOf(n) === 0)) return ROWC.custom[i].color; }
+    if (it.type === 'song') return ROWC.std.song || '';
+    if (it.type === 'media') return ROWC.std.media || '';
+    return PALETTE[7];
+  }
+
+  /* ---------- Suggestions ----------
+     Each rule gives the suggested entry per column. A function looks the value up from who is scheduled. */
+  var PEOPLE = { byId: {}, am: { vocals: [], teacher: [], host: [] }, pm: { vocals: [], teacher: [], host: [] } };
+  function first(n) { return (n || '').split(' ')[0]; }
+  function uniq(a) { var o = []; a.forEach(function (x) { if (x && o.indexOf(x) < 0) o.push(x); }); return o; }
+  function buildPeople(tm, times) {
+    var pmTimes = {}, amTimes = {};
+    (times.data || []).forEach(function (t) {
+      if (t.attributes.time_type !== 'service') return;
+      var h = new Date(t.attributes.starts_at).getHours();
+      (h >= 12 ? pmTimes : amTimes)[t.id] = 1;
+    });
+    var teams = {}; (tm.included || []).forEach(function (t) { if (t.type === 'Team') teams[t.id] = (t.attributes.name || '').trim().toLowerCase(); });
+    (tm.data || []).forEach(function (p) {
+      var pid = ((p.relationships.person || {}).data || {}).id; if (pid) PEOPLE.byId[pid] = p.attributes.name;
+      if (p.attributes.status === 'D') return;
+      var team = teams[((p.relationships.team || {}).data || {}).id] || '';
+      var pos = (p.attributes.team_position_name || '').trim().toLowerCase();
+      var role = team === 'band' && pos === 'vocals' ? 'vocals' : team === 'leader' && pos === 'teacher' ? 'teacher' : team === 'leader' && pos === 'host' ? 'host' : null;
+      if (!role) return;
+      var st = ((p.relationships.service_times || {}).data || []).map(function (x) { return x.id; });
+      if (st.some(function (id) { return amTimes[id]; })) PEOPLE.am[role].push(first(p.attributes.name));
+      if (st.some(function (id) { return pmTimes[id]; })) PEOPLE.pm[role].push(first(p.attributes.name));
+    });
+    ['am', 'pm'].forEach(function (k) { Object.keys(PEOPLE[k]).forEach(function (r) { PEOPLE[k][r] = uniq(PEOPLE[k][r]); }); });
+  }
+  async function resolveSongLeaders() {
+    var missing = uniq([].concat.apply([], items.map(function (it) { return it.leaders || []; }))).filter(function (id) { return !PEOPLE.byId[id]; });
+    await Promise.all(missing.map(function (id) {
+      return api('/people/' + id).then(function (r) { PEOPLE.byId[id] = r.data.attributes.full_name || [r.data.attributes.first_name, r.data.attributes.last_name].join(' '); }).catch(function () { });
+    }));
+  }
+  function joinNames(a) { return a.length ? [a.join(' & ')] : []; }
+  /* Suggestion rules come from the install page. "@..." values are looked up from who is scheduled. */
+  var RULESDATA = __RULES__;
+  function tokenVals(tok, it) {
+    if (tok === '@song_leader') return joinNames(uniq((it.leaders || []).map(function (id) { return first(PEOPLE.byId[id]); })));
+    var m2 = tok.match(/^@(vocals|teacher|host)_(am|pm)$/);
+    return m2 ? PEOPLE[m2[2]][m2[1]] : [];
+  }
+  function ruleMatch(r, it) {
+    if (r.kind === 'song') return it.type === 'song';
+    if (r.kind === 'first') return !!it.firstDuring;
+    var t = (r.text || '').toLowerCase().trim();
+    if (!t || it.title.toLowerCase().indexOf(t) !== 0) return false;
+    if (r.pos === 'top') return !!it.atTop;
+    if (r.pos === 'bottom') return !it.atTop;
+    return true;
+  }
+  /* For each column, the first matching rule that has a value for that column is used */
+  function suggest(it, cat) {
+    for (var i = 0; i < RULESDATA.length; i++) {
+      var r = RULESDATA[i];
+      if (!ruleMatch(r, it)) continue;
+      var vals = (r.v || {})[cat] || [];
+      if (!vals.length) continue;
+      var out = [];
+      vals.forEach(function (x) { if (x.charAt(0) === '@') out = out.concat(tokenVals(x, it)); else out.push(x); });
+      return uniq(out);
+    }
+    return [];
+  }
+  function markPositions() {
+    var seenContent = false, firstDone = false;
+    items.forEach(function (it) {
+      if (it.type === 'header') return;
+      it.firstDuring = !firstDone && it.pos === 'during';
+      if (it.firstDuring) firstDone = true;
+      it.atTop = !seenContent;
+      if (!/^announcement loop/i.test(it.title) && !/^countdown/i.test(it.title)) seenContent = true;
+    });
+  }
+
+  /* A dash means "no change from the item above". A suggestion that repeats the entry above becomes a dash.
+     Columns with no rule for an item suggest a dash for empty cells only. */
+  function computeSug() {
+    COLUMNS.forEach(function (cat) {
+      var state = null;
+      items.forEach(function (it) {
+        if (it.type === 'header') return;
+        it.sug = it.sug || {};
+        var raw = suggest(it, cat), ruled = raw.length > 0;
+        var vals = ruled ? uniq(raw.map(function (x) { return x === state ? '-' : x; })) : ['-'];
+        it.sug[cat] = { vals: vals, ruled: ruled };
+        var v = it.notes[cat] ? it.notes[cat].content : null;
+        if (v !== null && v !== '-') state = v;
+        else if (v === null && vals.length === 1 && vals[0] !== '-') state = vals[0];
+      });
+    });
+  }
+
+  function loadLists() { LISTS = JSON.parse(JSON.stringify(BUILT_IN)); }
+
+  async function load() {
+    try {
+      ST = await findServiceType();
+      var base = '/service_types/' + ST + '/plans/' + planId;
+      var r = await Promise.all([
+        api('/service_types/' + ST + '/item_note_categories?per_page=100'),
+        api(base),
+        api(base + '/items?include=item_notes,item_assignments&per_page=200'),
+        api(base + '/team_members?per_page=200&include=team').catch(function () { return { data: [] }; }),
+        api('/service_types/' + ST).catch(function () { return { data: { attributes: {} } }; }),
+        api(base + '/plan_times?per_page=50').catch(function () { return { data: [] }; })
+      ]);
+      setRowColors(r[4].data.attributes || {});
+      cats = {}; r[0].data.forEach(function (c) { cats[c.attributes.name] = c.id; });
+      plan = r[1].data;
+      items = itemsWithNotes(r[2]);
+      markPositions();
+      loadLists();
+      var names = {};
+      /* Leader names: people scheduled on BAND > Vocals or anywhere on the LEADER team (declines left out) */
+      var teams = {}; (r[3].included || []).forEach(function (t) { if (t.type === 'Team') teams[t.id] = (t.attributes.name || '').trim().toLowerCase(); });
+      r[3].data.forEach(function (p) {
+        var team = teams[((p.relationships.team || {}).data || {}).id] || '';
+        var pos = (p.attributes.team_position_name || '').trim().toLowerCase();
+        var ok = team === 'leader' || (team === 'band' && pos === 'vocals');
+        if (ok && p.attributes.status !== 'D') { var f = (p.attributes.name || '').split(' ')[0]; if (f) names[f] = 1; }
+      });
+      buildPeople(r[3], r[5]);
+      await resolveSongLeaders();
+      ['Leader AM', 'Leader PM'].forEach(function (c) {
+        var base = LISTS[c] || [];
+        LISTS[c] = Object.keys(names).filter(function (n) { return base.indexOf(n) < 0; }).sort().concat(base);
+      });
+      $('#sub').textContent = plan.attributes.dates || '';
+      $('#sub').title = plan.attributes.title || '';
+      $('#ver').textContent = 'Lists v' + LIST_VERSION;
+      $('#ver').title = 'Panel ' + VERSION;
+      computeSug();
+      render();
+      refreshChips();
+    } catch (e) {
+      $('#bdy').innerHTML = '<div class="msg">Couldn’t load this plan. ' + esc(e.message) + '</div>';
+    }
+  }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function fmtLen(s) { if (!s) return ''; var mm = Math.floor(s / 60), ss = s % 60; return mm + ':' + (ss < 10 ? '0' : '') + ss; }
+
+  var CELLS = [], SUGMODE = true;
+  function refreshChips() { computeSug(); CELLS.forEach(function (c) { c.chips(); }); }
+  function prefill() {
+    var todo = [], skip = 0;
+    CELLS.forEach(function (c) {
+      if (!c.empty()) return;
+      var sg = (c.it.sug && c.it.sug[c.cat]) ? c.it.sug[c.cat].vals : ['-'];
+      if (sg.length > 1) { skip++; return; }
+      todo.push([c, sg[0]]);
+    });
+    if (!todo.length) { alert(skip ? 'The only empty cells left have more than one suggestion. Pick those from the dropdown.' : 'There are no empty cells.'); return; }
+    if (!confirm('Fill ' + todo.length + ' empty cell' + (todo.length > 1 ? 's' : '') + ' and save to Planning Center? Cells that already have text won\u2019t be changed.' + (skip ? '\n\n' + skip + ' cell' + (skip > 1 ? 's have' : ' has') + ' more than one suggestion and will stay empty for you to pick.' : ''))) return;
+    (async function () { for (var i = 0; i < todo.length; i++) { await todo[i][0].save(todo[i][1]); if (i % 20 === 19) await new Promise(function (r) { setTimeout(r, 1500); }); } })();
+  }
+
+  function render() {
+    CELLS = [];
+    $('#pf').onclick = prefill;
+    $('#sgb').onclick = function () { SUGMODE = !SUGMODE; this.classList.toggle('on', SUGMODE); refreshChips(); };
+    var cols = COLUMNS.filter(function (c) { return cats[c]; });
+    var tbl = document.createElement('table');
+    tbl.innerHTML = '<thead><tr><th style="padding-left:16px">Item</th>' + cols.map(function (c, i) { return '<th data-c="' + (i + 1) + '">' + esc(c) + '</th>'; }).join('') + '</tr></thead><tbody></tbody>';
+    var tb = tbl.querySelector('tbody');
+    items.forEach(function (it) {
+      var tr = document.createElement('tr');
+      if (it.type === 'header') {
+        tr.className = 'hdr';
+        tr.innerHTML = '<td>' + esc(it.title) + '</td><td colspan="' + cols.length + '"></td>';
+        paintRow(tr, rowColor(it));
+        tb.appendChild(tr); return;
+      }
+      tr.className = (it.type === 'song' ? 'song' : 'item') + (it.pos && it.pos !== 'during' ? ' pp' : '');
+      var meta = [it.type === 'song' ? 'Song' : it.type === 'media' ? 'Media' : 'Item', it.key, fmtLen(it.len)].filter(Boolean).join(' · ');
+      tr.innerHTML = '<td class="it"><b title="' + esc(it.title) + '">' + esc(it.title) + '</b><span>' + esc(meta) + '</span></td>';
+      cols.forEach(function (c, i) { var td = document.createElement('td'); td.dataset.c = i + 1; tr.appendChild(td); makeCell(td, it, c); });
+      paintRow(tr, rowColor(it));
+      tb.appendChild(tr);
+    });
+    $('#bdy').innerHTML = ''; $('#bdy').appendChild(tbl);
+    crosshair(tbl);
+    var hh = $('#hh');
+    function applyHeaders() { tbl.querySelectorAll('tr.hdr').forEach(function (r) { r.hidden = hh.checked; }); }
+    hh.onchange = applyHeaders; applyHeaders();
+  }
+
+  function paintRow(tr, c) { if (c) tr.querySelectorAll('td').forEach(function (td) { td.style.background = c; }); }
+
+  /* Hover highlight: keep the hovered row and column at full strength, fade the rest */
+  function crosshair(tbl) {
+    var lastR = null, lastC = null;
+    function clear() {
+      tbl.classList.remove('hov');
+      tbl.querySelectorAll('.r,.c').forEach(function (el) { el.classList.remove('r', 'c'); });
+      lastR = lastC = null;
+    }
+    tbl.addEventListener('mouseover', function (e) {
+      var cell = e.target.closest('td,th'); if (!cell) return;
+      var row = cell.parentElement, col = cell.dataset.c || null;
+      if (row.classList.contains('hdr') || row.parentElement.tagName === 'THEAD') { if (!col) { clear(); return; } }
+      if (row === lastR && col === lastC) return;
+      tbl.querySelectorAll('.r,.c').forEach(function (el) { el.classList.remove('r', 'c'); });
+      if (row.parentElement.tagName !== 'THEAD' && !row.classList.contains('hdr')) row.querySelectorAll('td').forEach(function (td) { td.classList.add('r'); });
+      if (col) tbl.querySelectorAll('[data-c="' + col + '"]').forEach(function (el) { el.classList.add('c'); });
+      tbl.classList.add('hov'); lastR = row; lastC = col;
+    });
+    tbl.addEventListener('mouseleave', clear);
+  }
+
+  function makeCell(td, it, cat) {
+    var wrap = document.createElement('div'); wrap.className = 'cell'; td.appendChild(wrap);
+    var chipBox = document.createElement('div'); chipBox.className = 'chips'; td.appendChild(chipBox);
+    function drawChips() {
+      chipBox.innerHTML = ''; td.classList.remove('cf');
+      if (!SUGMODE || !it.sug || !it.sug[cat]) return;
+      var s = it.sug[cat], v = cur(), kind = null, vals = [];
+      if (v === null) { kind = 'add'; vals = s.vals; }
+      else if (s.ruled && s.vals.indexOf(v) < 0) { kind = 'fix'; vals = s.vals; td.classList.add('cf'); }
+      vals.slice(0, 4).forEach(function (x) {
+        var b = document.createElement('button'); b.className = 'chip ' + kind;
+        b.textContent = (kind === 'add' ? '+ ' : '\u2192 ') + x;
+        b.title = kind === 'add' ? 'Click to fill with ' + x : 'Suggested: ' + x + '. Click to replace \u201c' + v + '\u201d';
+        b.onclick = function () { save(x); };
+        chipBox.appendChild(b);
+      });
+    }
+    function cur() { return it.notes[cat] ? it.notes[cat].content : null; }
+    function opts() { return LISTS[cat] || []; }
+    function paint(state) {
+      var v = cur(), ns = v !== null && !/^Leader/.test(cat) && opts().indexOf(v) < 0;
+      td.classList.remove('empty', 'ns', 'sv', 'ok', 'er');
+      var k = state || (v === null ? 'empty' : ns ? 'ns' : ''); if (k) td.classList.add(k);
+      td.title = ns ? 'Not on the approved list' : '';
+    }
+    function drawSelect() {
+      wrap.innerHTML = '';
+      var sel = document.createElement('select');
+      var v = cur(), list = opts(), html = '';
+      if (v === null) html += '<option value="' + NONE + '"></option>';
+      if (v !== null && list.indexOf(v) < 0) html += '<option value="' + esc(v) + '">' + esc(v) + '</option>';
+      var sg = ((it.sug && it.sug[cat] && it.sug[cat].ruled) ? it.sug[cat].vals : []).filter(function (x) { return x !== v; });
+      if (sg.length) html += '<optgroup label="Suggested">' + sg.map(function (o) { return '<option value="' + esc(o) + '">' + esc(o) + '</option>'; }).join('') + '</optgroup><optgroup label="All">';
+      html += list.map(function (o) { return '<option value="' + esc(o) + '">' + esc(o) + '</option>'; }).join('');
+      if (sg.length) html += '</optgroup>';
+      html += '<option disabled>────────</option><option value="' + CUSTOM + '">Custom…</option>' + (v !== null ? '<option value="' + CLEAR + '">Clear</option>' : '');
+      sel.innerHTML = html;
+      sel.value = v === null ? NONE : v;
+      sel.onchange = function () {
+        if (sel.value === CUSTOM) { drawInput(); return; }
+        if (sel.value === NONE) return;
+        save(sel.value === CLEAR ? null : sel.value);
+      };
+      wrap.appendChild(sel);
+    }
+    function drawInput() {
+      wrap.innerHTML = '';
+      var inp = document.createElement('input'); inp.value = cur() || ''; inp.placeholder = 'Type, then Enter';
+      var back = document.createElement('button'); back.className = 'x'; back.textContent = '↩'; back.title = 'Back to the list';
+      var done = false;
+      function commit() { if (done) return; done = true; var t = inp.value.trim(); if (t && t !== cur()) save(t); else drawSelect(); }
+      inp.onkeydown = function (e) { if (e.key === 'Enter') commit(); if (e.key === 'Escape') { e.stopPropagation(); done = true; drawSelect(); } };
+      inp.onblur = function () { setTimeout(commit, 120); };
+      back.onmousedown = function (e) { e.preventDefault(); done = true; drawSelect(); };
+      wrap.appendChild(inp); wrap.appendChild(back); inp.focus(); inp.select();
+    }
+    async function save(val) {
+      var prev = it.notes[cat] ? { id: it.notes[cat].id, content: it.notes[cat].content } : null;
+      if (val === (prev && prev.content)) { drawSelect(); return; }
+      var base = '/service_types/' + ST + '/plans/' + planId + '/items/' + it.id + '/item_notes';
+      if (val === null) delete it.notes[cat]; else it.notes[cat] = { id: prev && prev.id, content: val };
+      drawSelect(); paint('sv'); pending++; setStat();
+      try {
+        if (val === null) await api(base + '/' + prev.id, { method: 'DELETE' });
+        else if (prev) await api(base + '/' + prev.id, { method: 'PATCH', body: { data: { type: 'ItemNote', id: prev.id, attributes: { content: val } } } });
+        else { var res = await api(base, { method: 'POST', body: { data: { type: 'ItemNote', attributes: { content: val, item_note_category_id: cats[cat] } } } }); it.notes[cat].id = res.data.id; }
+        saves++; paint('ok'); setTimeout(function () { if (td.classList.contains('ok')) paint(); }, 1500);
+        refreshChips();
+      } catch (e) {
+        if (prev) it.notes[cat] = prev; else delete it.notes[cat];
+        drawSelect(); paint('er'); failed++;
+        td.title = (e.status === 401 || e.status === 403) ? 'You don’t have permission to edit this plan.' : 'Couldn’t save (' + e.message + '). Try again.';
+      }
+      pending--; setStat();
+    }
+    drawSelect(); paint();
+    CELLS.push({ it: it, cat: cat, empty: function () { return cur() === null; }, save: save, chips: drawChips });
+  }
+
+  load();
+})();
+</script>
+<script id="main">
+(function(){
+  var app=document.getElementById('app');
+  app.appendChild(document.getElementById('tpl').content.cloneNode(true));
+  var q=function(s){return app.querySelector(s);};
+var state=JSON.parse(document.getElementById('state').textContent);
+  state.rules=state.rules||[];
+  var COLS=['Leader AM','Leader PM','Audio','Lights','PP: Audience','PP: Stage Layout','PP: Timers','Livestream'];
+  var TOKENS={'@song_leader':'Song leader (from the song)','@vocals_am':'Vocals, AM services','@vocals_pm':'Vocals, PM service','@teacher_am':'Teacher, AM services','@teacher_pm':'Teacher, PM service','@host_am':'Host, AM services','@host_pm':'Host, PM service'};
+  var POS={any:'',top:'at the top of the plan',bottom:'at the bottom of the plan'};
+  var editing=null, artifactNs=null;
+
+  function fmtDate(d){try{return new Date(d+'T12:00:00').toLocaleDateString(undefined,{month:'long',day:'numeric',year:'numeric'});}catch(e){return d;}}
+  function bookmarklet(st){
+    var src=document.getElementById('panel-src').textContent.replace(/\/\*[\s\S]*?\*\//g,'');
+    src=src.replace('__LISTS__',function(){return JSON.stringify(st.lists);}).replace('__LISTVER__',String(st.version)).replace('__RULES__',function(){return JSON.stringify(st.rules||[]);});
+    src=src.split('\n').map(function(l){return l.trim();}).filter(Boolean).join('\n');
+    return 'javascript:'+encodeURIComponent(src);
+  }
+  var BM=bookmarklet(state);
+  q('[data-ver]').innerHTML='Current lists: <b>v'+state.version+'</b>, updated '+fmtDate(state.updated);
+  q('[data-code]').value=BM;
+  var dl=q('[data-drag]'); dl.setAttribute('href',BM);
+  dl.addEventListener('click',function(e){e.preventDefault();q('[data-draghint]').textContent='Drag this button to your bookmarks bar instead of clicking it.';});
+  q('[data-copy]').addEventListener('click',function(){
+    var ta=q('[data-code]'), msg=q('[data-copied]');
+    function fb(){ta.focus();ta.select();msg.textContent='Press Cmd+C (or Ctrl+C) to copy the selected code.';}
+    try{navigator.clipboard.writeText(BM).then(function(){msg.textContent='Copied. Paste it into the bookmark’s URL field.';},fb);}catch(e){fb();}
+  });
+
+  function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e;}
+  function ib(txt,label,dis,fn,cls){var b=el('button','ib'+(cls?' '+cls:''),txt);b.type='button';b.title=label;b.setAttribute('aria-label',label);b.disabled=dis;b.addEventListener('click',fn);return b;}
+
+  /* ---------- Approved lists ---------- */
+  function renderListsView(){
+    var wrap=q('[data-lists]'); wrap.innerHTML='';
+    COLS.forEach(function(col){
+      var c=el('div','card'); c.appendChild(el('h3',null,col));
+      var ol=el('ol');
+      (state.lists[col]||[]).forEach(function(v){ol.appendChild(el('li',null,v));});
+      c.appendChild(ol); wrap.appendChild(c);
+    });
+  }
+  function renderListsEdit(){
+    var wrap=q('[data-lists]'); wrap.innerHTML='';
+    COLS.forEach(function(col){
+      var list=editing.lists[col];
+      var c=el('div','card'); c.appendChild(el('h3',null,col));
+      var ed=el('div','ed');
+      list.forEach(function(v,i){
+        var r=el('div','er');
+        var inp=el('input'); inp.value=v; inp.id='e-'+COLS.indexOf(col)+'-'+i; inp.setAttribute('aria-label',col+' entry '+(i+1));
+        inp.addEventListener('input',function(){list[i]=inp.value;});
+        inp.addEventListener('change',function(){renderRulesEdit();});
+        r.appendChild(inp);
+        r.appendChild(ib('↑','Move up',i===0,function(){var t=list[i-1];list[i-1]=list[i];list[i]=t;renderListsEdit();renderRulesEdit();focusRow(col,i-1);}));
+        r.appendChild(ib('↓','Move down',i===list.length-1,function(){var t=list[i+1];list[i+1]=list[i];list[i]=t;renderListsEdit();renderRulesEdit();focusRow(col,i+1);}));
+        r.appendChild(ib('✕','Remove',false,function(){list.splice(i,1);renderListsEdit();renderRulesEdit();},'del'));
+        ed.appendChild(r);
+      });
+      c.appendChild(ed);
+      var add=el('button','btn ghost sm','+ Add entry'); add.type='button';
+      add.addEventListener('click',function(){list.push('');renderListsEdit();var e=document.getElementById('e-'+COLS.indexOf(col)+'-'+(list.length-1));if(e)e.focus();});
+      c.appendChild(add); wrap.appendChild(c);
+    });
+  }
+  function focusRow(col,i){var e=document.getElementById('e-'+COLS.indexOf(col)+'-'+i);if(e)e.focus();}
+
+  /* ---------- Suggestions ---------- */
+  function whenText(r){return r.kind==='song'?'Any song':r.kind==='first'?'First item in the service':'Title starts with “'+(r.text||'')+'”';}
+  function renderRulesView(){
+    var wrap=q('[data-rules]'); wrap.innerHTML='';
+    var t=el('table'); var hr=el('tr'); hr.appendChild(el('th',null,'When the item is'));
+    COLS.forEach(function(c){hr.appendChild(el('th',null,c));});
+    var th=el('thead'); th.appendChild(hr); t.appendChild(th);
+    var tb=el('tbody');
+    state.rules.forEach(function(r){
+      var tr=el('tr'); var w=el('td','when',whenText(r)); if(POS[r.pos]) w.appendChild(el('small',null,POS[r.pos])); tr.appendChild(w);
+      COLS.forEach(function(c){
+        var td=el('td'); var box=el('div','rv'); var vals=(r.v||{})[c]||[];
+        if(!vals.length) box.appendChild(el('span','none','—'));
+        vals.forEach(function(v,i){
+          var lab=TOKENS[v]?TOKENS[v]:v; var cls=TOKENS[v]?'tok':((state.lists[c]||[]).indexOf(v)<0?'orph':'');
+          var sp=el('span',cls,(i?'or ':'')+lab); if(cls==='orph') sp.title='Not on the approved list'; box.appendChild(sp);
+        });
+        td.appendChild(box); tr.appendChild(td);
+      });
+      tb.appendChild(tr);
+    });
+    t.appendChild(tb); wrap.appendChild(t);
+  }
+  function valueSelect(col,cur,onch){
+    var s=el('select'); s.setAttribute('aria-label',col+' suggestion');
+    var html='<option value="">— none —</option>';
+    var list=(editing?editing.lists[col]:state.lists[col])||[];
+    var known=list.indexOf(cur)>=0||TOKENS[cur];
+    if(cur&&!known) html+='<option value="'+attr(cur)+'">⚠ '+attr(cur)+'</option>';
+    if(/^Leader/.test(col)) html+='<optgroup label="From the schedule">'+Object.keys(TOKENS).map(function(k){return '<option value="'+k+'">'+attr(TOKENS[k])+'</option>';}).join('')+'</optgroup><optgroup label="Approved list">';
+    html+=list.filter(function(x){return x.trim();}).map(function(x){return '<option value="'+attr(x)+'">'+attr(x)+'</option>';}).join('');
+    if(/^Leader/.test(col)) html+='</optgroup>';
+    s.innerHTML=html; s.value=cur||''; s.addEventListener('change',function(){onch(s.value);}); return s;
+  }
+  function attr(x){return String(x).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
+  function renderRulesEdit(){
+    if(!editing) return;
+    var wrap=q('[data-rules]'); wrap.innerHTML='';
+    var t=el('table'); var hr=el('tr'); hr.appendChild(el('th',null,'When the item is'));
+    COLS.forEach(function(c){hr.appendChild(el('th',null,c));});
+    var th=el('thead'); th.appendChild(hr); t.appendChild(th);
+    var tb=el('tbody'); var rules=editing.rules;
+    rules.forEach(function(r,ri){
+      var tr=el('tr'); var td=el('td'); var wh=el('div','wh');
+      var kind=el('select'); kind.innerHTML='<option value="first">First item in the service</option><option value="song">Any song</option><option value="title">Title starts with…</option>'; kind.value=r.kind;
+      kind.setAttribute('aria-label','Rule '+(ri+1)+' type');
+      kind.addEventListener('change',function(){r.kind=kind.value;renderRulesEdit();});
+      wh.appendChild(kind);
+      if(r.kind==='title'){
+        var tx=el('input'); tx.value=r.text||''; tx.placeholder='e.g. TEACHING'; tx.setAttribute('aria-label','Rule '+(ri+1)+' title');
+        tx.addEventListener('input',function(){r.text=tx.value;}); wh.appendChild(tx);
+        var ps=el('select'); ps.innerHTML='<option value="any">Anywhere in the plan</option><option value="top">At the top of the plan</option><option value="bottom">At the bottom of the plan</option>'; ps.value=r.pos||'any';
+        ps.setAttribute('aria-label','Rule '+(ri+1)+' position');
+        ps.addEventListener('change',function(){r.pos=ps.value;}); wh.appendChild(ps);
+      }
+      var ctl=el('div','row');
+      ctl.appendChild(ib('↑','Move rule up',ri===0,function(){var x=rules[ri-1];rules[ri-1]=r;rules[ri]=x;renderRulesEdit();}));
+      ctl.appendChild(ib('↓','Move rule down',ri===rules.length-1,function(){var x=rules[ri+1];rules[ri+1]=r;rules[ri]=x;renderRulesEdit();}));
+      ctl.appendChild(ib('✕','Remove rule',false,function(){rules.splice(ri,1);renderRulesEdit();},'del'));
+      wh.appendChild(ctl); td.appendChild(wh); tr.appendChild(td);
+      COLS.forEach(function(c){
+        var cell=el('td'); r.v=r.v||{}; var vals=r.v[c]=r.v[c]||[];
+        if(!vals.length) vals.push('');
+        vals.forEach(function(v,vi){
+          var row=el('div','vr');
+          row.appendChild(valueSelect(c,v,function(nv){vals[vi]=nv;}));
+          if(vi>0) row.appendChild(ib('✕','Remove this option',false,function(){vals.splice(vi,1);renderRulesEdit();},'del'));
+          cell.appendChild(row);
+        });
+        var or=el('button','lnk','+ or'); or.type='button'; or.title='Offer another option for this column';
+        or.addEventListener('click',function(){vals.push('');renderRulesEdit();});
+        cell.appendChild(or); tr.appendChild(cell);
+      });
+      tb.appendChild(tr);
+    });
+    t.appendChild(tb); wrap.appendChild(t);
+    var add=el('button','btn ghost sm','+ Add rule'); add.type='button'; add.style.margin='10px';
+    add.addEventListener('click',function(){rules.push({kind:'title',text:'',pos:'any',v:{}});renderRulesEdit();});
+    wrap.appendChild(add);
+  }
+
+  /* ---------- Edit mode (lists and suggestions save together) ---------- */
+  var editBtns=['[data-edit]','[data-edit2]'];
+  function startEdit(){
+    editing={lists:{},rules:JSON.parse(JSON.stringify(state.rules))};
+    COLS.forEach(function(c){editing.lists[c]=(state.lists[c]||[]).slice();});
+    editBtns.forEach(function(s){q(s).hidden=true;}); q('[data-bar]').hidden=false;
+    q('[data-listhint]').textContent='Edit, reorder, add or remove entries. Changes aren’t shared until you save.';
+    q('#lists').open=true; q('#suggestions').open=true;
+    renderListsEdit(); renderRulesEdit();
+  }
+  function stopEdit(){
+    editing=null; editBtns.forEach(function(s){q(s).hidden=false;}); q('[data-bar]').hidden=true;
+    q('[data-listhint]').textContent='These are the entries in each dropdown, in the order they appear.';
+    var m=q('[data-barmsg]'); m.className='msg'; m.textContent='Saving publishes a new version. Everyone will need to add the bookmark again to get it.';
+    renderListsView(); renderRulesView();
+  }
+  function esc(s){return s.replace(/</g,'\\u003c');}
+  function buildDoc(newState){
+    var g=function(id){return document.getElementById(id).outerHTML;};
+    var o='<', skel=o+'!doctype html>'+o+'html>'+o+'head>'+o+'meta charset=utf8>'+o+'meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">'+o+'style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}'+o+'/style>'+o+'/head>'+o+'body>\n';
+    return skel+
+      '<title>Production Sheet</title>\n'+g('f1')+'\n'+g('f2')+'\n'+g('st')+'\n'+g('tpl')+'\n<div id="app"></div>\n'+
+      '<script type="application/json" id="state">'+esc(JSON.stringify(newState))+'<\/script>\n'+
+      g('panel-src')+'\n'+g('main')+'</body></html>';
+  }
+  async function save(){
+    var clean={}, total=0;
+    COLS.forEach(function(c){var seen={};clean[c]=editing.lists[c].map(function(v){return v.trim();}).filter(function(v){if(!v||seen[v.toLowerCase()])return false;seen[v.toLowerCase()]=1;return true;});total+=clean[c].length;});
+    var m=q('[data-barmsg]');
+    if(!total){m.className='msg bad';m.textContent='Every list is empty. Add entries before saving.';return;}
+    var rules=editing.rules.filter(function(r){return r.kind!=='title'||(r.text||'').trim();}).map(function(r){
+      var v={}; COLS.forEach(function(c){var a=((r.v||{})[c]||[]).filter(function(x,i,arr){return x&&arr.indexOf(x)===i;}); if(a.length) v[c]=a;});
+      return r.kind!=='title'?{kind:r.kind,text:'',pos:'any',v:v}:{kind:'title',text:r.text.trim(),pos:r.pos||'any',v:v};
+    });
+    var d=new Date(), pad=function(n){return(n<10?'0':'')+n;};
+    var ns={version:state.version+1,updated:d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()),lists:clean,rules:rules};
+    var sb=q('[data-save]'); sb.disabled=true; m.className='msg'; m.textContent='Publishing…';
+    try{ await artifactNs.publish(buildDoc(ns)); }
+    catch(e){
+      sb.disabled=false; m.className='msg bad';
+      var code=e&&e.code;
+      m.textContent=code==='not_writer'||code==='not_granted'?'Only editors of this page can make changes.':code==='conflict'?'Someone else just saved. The page will reload with their version.':'Couldn’t publish ('+(code||(e&&e.message)||'unknown error')+'). Try again.';
+      try{console.error('publish failed',e);}catch(_){}
+    }
+  }
+  q('[data-edit]').addEventListener('click',startEdit);
+  q('[data-edit2]').addEventListener('click',function(){startEdit();});
+  q('[data-cancel]').addEventListener('click',stopEdit);
+  q('[data-save]').addEventListener('click',save);
+  renderListsView(); renderRulesView();
+
+  (async function(){
+    try{
+      if(!window.claude||!window.claude.use) return;
+      var a=await window.claude.use('artifact'); if(!a) return;
+      var u=await window.claude.use('user');
+      var can=u?await u.canEdit():null;
+      if(can===false) return;
+      artifactNs=a; editBtns.forEach(function(s){q(s).hidden=false;});
+    }catch(e){}
+  })();
+})();
+</script>
+</body>
+</html>
