@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Production Tools</title>
+<style>
+:root{--bg:#f6f7f8;--surface:#ffffff;--fg:#1b2329;--muted:#5d6a73;--line:#dde2e6;--accent:#1f6f8b;--accent-fg:#ffffff;--chip:#e6f0f4;--chip-fg:#134b5f;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif}
+@media (prefers-color-scheme: dark){:root{--bg:#12171b;--surface:#1a2127;--fg:#e4e9ec;--muted:#9aa7b0;--line:#2c363e;--accent:#6cb8d3;--accent-fg:#0d1a20;--chip:#1d3440;--chip-fg:#b9e1ef;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 var(--body)}
+.wrap{max-width:760px;margin:0 auto;padding:48px 20px 64px}
+h1{font-size:30px;margin:0 0 6px;letter-spacing:-.01em}
+.lede{color:var(--muted);margin:0 0 32px}
+.grid{display:grid;gap:16px}
+a.card{display:block;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px 22px;text-decoration:none;color:inherit;transition:border-color .15s,box-shadow .15s}
+a.card:hover,a.card:focus-visible{border-color:var(--accent);box-shadow:0 2px 14px rgba(0,0,0,.08);outline:none}
+.card h2{margin:0 0 4px;font-size:20px;color:var(--accent)}
+.card p{margin:0;color:var(--fg)}
+.tag{display:inline-block;margin-top:10px;padding:2px 10px;border-radius:999px;background:var(--chip);color:var(--chip-fg);font-size:13px;font-weight:600}
+.foot{margin-top:36px;color:var(--muted);font-size:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Production Tools</h1>
+  <p class="lede">Bookmark tools for Planning Center Services production work. Install a tool once, then use it from any plan.</p>
+  <div class="grid">
+    <a class="card" href="./packet/">
+      <h2>Production Packet</h2>
+      <p>One click builds every AM and PM production report for a plan, plus the Stage Plot AM and PM, as a single PDF.</p>
+      <span class="tag">Bookmark &middot; Install page</span>
+    </a>
+    <a class="card" href="./sheet/">
+      <h2>Production Sheet</h2>
+      <p>Bookmark tool to facilitate production sheet generation in Planning Center.</p>
+      <span class="tag">Bookmark &middot; Install page</span>
+    </a>
+  </div>
+  <p class="foot">Use Chrome and stay signed in to Planning Center. The tools run inside your own Planning Center session.</p>
+</div>
+</body>
+</html>
