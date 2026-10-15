@@ -51,18 +51,6 @@ results.forEach((res,k)=>{const s=d.createElement('section');s.className='rep';s
 await Promise.all([...d.images].map(i=>i.complete?1:new Promise(r=>{i.onload=i.onerror=r;})));
 await sleep(300);
 const warns=[];
-/* make the name tags on a stage plot bigger and nudge overlapping tags apart */
-const spread=(fd,K)=>{const GAP=3;const els=[...fd.querySelectorAll('.stage-member-container')];
-const it=els.map(e=>({e,w:e.offsetWidth*K,h:e.offsetHeight*K,cx:parseFloat(e.style.left)+e.offsetWidth/2,cy:parseFloat(e.style.top)+e.offsetHeight/2}));
-const st=fd.querySelector('.stage');const SW=st.offsetWidth,SH=st.offsetHeight;
-for(let p=0;p<80;p++){let moved=false;
-for(let a=0;a<it.length;a++)for(let b=a+1;b<it.length;b++){const A=it[a],B=it[b];
-const ox=(A.w+B.w)/2+GAP-Math.abs(A.cx-B.cx),oy=(A.h+B.h)/2+GAP-Math.abs(A.cy-B.cy);
-if(ox>0&&oy>0){moved=true;if(ox<oy){const s=(A.cx<=B.cx?-1:1)*ox/2;A.cx+=s;B.cx-=s;}else{const s=(A.cy<=B.cy?-1:1)*oy/2;A.cy+=s;B.cy-=s;}}}
-it.forEach(i=>{i.cx=Math.min(SW-i.w/2,Math.max(i.w/2,i.cx));i.cy=Math.min(SH-i.h/2,Math.max(i.h/2,i.cy));});
-if(!moved)break;}
-it.forEach(i=>{const e=i.e;e.style.transformOrigin='center center';e.style.transform='scale('+K+')';e.style.left=(i.cx-e.offsetWidth/2)+'px';e.style.top=(i.cy-e.offsetHeight/2)+'px';});
-};
 const fit=(sec,idx)=>{
 const inner=sec.querySelector('.pg1 .inner');if(!inner)return;
 const tbl=inner.querySelector('table.plan');
@@ -84,6 +72,7 @@ st.textContent=rule(lo);
 };
 secs.forEach(fit);
 say('Adding stage plots...');
+['Stage Plot AM','Stage Plot PM'].forEach(sn=>{const src=secs[0].querySelector('.pg2');const s=d.createElement('section');s.className='rep';s.dataset.name=sn;const c=src.cloneNode(true);c.dataset.stage=sn;const rn=c.querySelector('.rname');if(rn)rn.textContent=sn;s.appendChild(c);d.body.appendChild(s);secs.push(s);});
 const jobs=[];
 secs.forEach((sec)=>{
 const pg2=sec.querySelector('.pg2');const sn=pg2&&pg2.dataset.stage;
@@ -107,7 +96,6 @@ const st=fd.createElement('style');
 st.textContent='*{-webkit-print-color-adjust:exact;print-color-adjust:exact}html,body{margin:0;padding:0;overflow:hidden;background:#fff}';
 fd.head.appendChild(st);
 await sleep(500);
-spread(fd,1.3);
 const r=top.getBoundingClientRect();
 const bw=Math.max(top.scrollWidth,r.width,1),bh=Math.max(top.scrollHeight,r.height,1);
 const z=Math.min(PW/bw,avail/bh);
